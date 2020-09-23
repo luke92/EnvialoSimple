@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.AdminMail.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.AdminMail.Models;
+using Core.Models;
 using Newtonsoft.Json.Linq;
 
-namespace .EnvialoSimple.Business.Modules.AdminMail
+namespace EnvialoSimple.Business.Modules.AdminMail
 {
     public class AdminMailModule : IAdminMailModule
     {
@@ -38,16 +38,25 @@ namespace .EnvialoSimple.Business.Modules.AdminMail
 
                     JObject rss = JObject.Parse(json);
 
-                    JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
-
-
-                    IList<AdminMailModel> models = new List<AdminMailModel>();
-                    foreach (var item in items.Children())
+                    try
                     {
-                        models.Add(item.ToObject<AdminMailModel>());
+                        JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
+
+
+                        IList<AdminMailModel> models = new List<AdminMailModel>();
+                        foreach (var item in items.Children())
+                        {
+                            models.Add(item.ToObject<AdminMailModel>());
+                        }
+
+                        return new SuccessResultModel<IList<AdminMailModel>>(models);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<IList<AdminMailModel>>(item.ToString());
                     }
 
-                    return new SuccessResultModel<IList<AdminMailModel>>(models);
                 }
             }
             catch (Exception e)
@@ -93,13 +102,22 @@ namespace .EnvialoSimple.Business.Modules.AdminMail
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["email"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["email"];
 
 
-                    AdminMailModel campaingCreatedModel = new AdminMailModel();
-                    campaingCreatedModel = item.ToObject<AdminMailModel>();
+                        AdminMailModel campaingCreatedModel = new AdminMailModel();
+                        campaingCreatedModel = item.ToObject<AdminMailModel>();
 
-                    return new SuccessResultModel<AdminMailModel>(campaingCreatedModel);
+                        return new SuccessResultModel<AdminMailModel>(campaingCreatedModel);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<AdminMailModel>(item.ToString());
+                    }
+
                 }
             }
             catch (Exception e)
@@ -110,8 +128,6 @@ namespace .EnvialoSimple.Business.Modules.AdminMail
 
         public async Task<ResultModel<AdminMailModel>> GetItem(AdminMailModel adminMailModel)
         {
-            
-                
             try
             {
                 var listaAdminsMail = await GetList();

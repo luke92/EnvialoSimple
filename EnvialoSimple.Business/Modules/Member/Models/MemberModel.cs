@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using .EnvialoSimple.Business.Modules.MailList.Models;
+using EnvialoSimple.Business.Modules.MailList.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace .EnvialoSimple.Business.Modules.Member.Models
+namespace EnvialoSimple.Business.Modules.Member.Models
 {
     public class MemberModel
     {
@@ -24,11 +25,28 @@ namespace .EnvialoSimple.Business.Modules.Member.Models
         {
             CustomFields = new CustomFields();
         }
+
+        public override int GetHashCode()
+        {
+            return Email.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() == typeof(MemberModel))
+            {
+                string objEmail = ((MemberModel)obj).Email;
+
+                return string.Equals(objEmail, Email, StringComparison.InvariantCultureIgnoreCase);
+            }
+
+            return false;
+        }
     }
 
     public class CustomFields
     {
-        public CustomFieldsItem Item { get; set; }
+        public JToken Item { get; set; }
     }
 
     public class CustomFieldsItem

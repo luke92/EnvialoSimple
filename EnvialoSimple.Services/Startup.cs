@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.AdminMail;
-using .EnvialoSimple.Business.Modules.Campaign;
-using .EnvialoSimple.Business.Modules.Content;
-using .EnvialoSimple.Business.Modules.MailList;
-using .EnvialoSimple.Business.Modules.Member;
-using .EnvialoSimple.Business.Modules.Sender;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.AdminMail;
+using EnvialoSimple.Business.Modules.Campaign;
+using EnvialoSimple.Business.Modules.Checker;
+using EnvialoSimple.Business.Modules.Content;
+using EnvialoSimple.Business.Modules.CustomField;
+using EnvialoSimple.Business.Modules.MailList;
+using EnvialoSimple.Business.Modules.Member;
+using EnvialoSimple.Business.Modules.Sender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,7 +22,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace .EnvialoSimple.Services
+namespace EnvialoSimple.Services
 {
     public class Startup
     {
@@ -40,18 +42,19 @@ namespace .EnvialoSimple.Services
             // register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = " " + Configuration["AppName"] + "  API", Version = Configuration["Version"] });
+                c.SwaggerDoc("v1", new Info { Title = "HUA " + Configuration["AppName"] + "  API", Version = Configuration["Version"] });
                 c.DescribeAllEnumsAsStrings();
             });
 
-            services.AddSingleton<BaseURI>();
-
+            services.AddScoped<BaseURI>();
             services.AddScoped<ICampaignModule, CampaignModule>();
             services.AddScoped<IMemberModule, MemberModule>();
             services.AddScoped<IMailListModule, MailListModule>();
             services.AddScoped<IContentModule, ContentModule>();
             services.AddScoped<IAdminMailModule, AdminMailModule>();
+            services.AddScoped<ICustomFieldModule, CustomFieldModule>();
             services.AddScoped<ISenderModule, SenderModule>();
+            services.AddScoped<ICheckerModule, CheckerModule>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +89,7 @@ namespace .EnvialoSimple.Services
             // Enable middleware to serve swagger-ui specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", " " + Configuration["AppName"] + " API");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "HUA " + Configuration["AppName"] + " API");
             });
 
             app.UseMvc();

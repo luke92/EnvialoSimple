@@ -3,17 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.AdminMail;
-using .EnvialoSimple.Business.Modules.Campaign;
-using .EnvialoSimple.Business.Modules.Content;
-using .EnvialoSimple.Business.Modules.MailList;
-using .EnvialoSimple.Business.Modules.Member;
-using .EnvialoSimple.Business.Modules.Member.Models;
-using .EnvialoSimple.Business.Modules.Sender.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.AdminMail;
+using EnvialoSimple.Business.Modules.Campaign;
+using EnvialoSimple.Business.Modules.Content;
+using EnvialoSimple.Business.Modules.MailList;
+using EnvialoSimple.Business.Modules.Member;
+using EnvialoSimple.Business.Modules.Member.Models;
+using EnvialoSimple.Business.Modules.Sender.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.Sender
+namespace EnvialoSimple.Business.Modules.Sender
 {
     public class SenderModule : ISenderModule
     {
@@ -105,17 +105,18 @@ namespace .EnvialoSimple.Business.Modules.Sender
                 {
                     return response;
                 }
-                
-                CreateMembers(model.MailListWithMembers.Members, mailList.Data.MailListID);
 
-                var sendCampaing = await _campaignModule.Send(campaign.Data.CampaignId);
-                response.CampaignSended = sendCampaing.Data;
-                response.Errors = GetErrors(sendCampaing.Errors);
-                if (sendCampaing.Result != OperationResult.Ok)
+                CreateMembers(model.MailListWithMembers.Members, mailList.Data.MailListID, campaign.Data.CampaignId);
+                if (model.Campaign.Campaign.DontSendNow)
                 {
-                    return response;
+                    var sendCampaing = await _campaignModule.Send(campaign.Data.CampaignId);
+                    response.CampaignSended = sendCampaing.Data;
+                    response.Errors = GetErrors(sendCampaing.Errors);
+                    if (sendCampaing.Result != OperationResult.Ok)
+                    {
+                        return response;
+                    }
                 }
-
                 response.CampaignSended = true;
 
             }
@@ -128,11 +129,12 @@ namespace .EnvialoSimple.Business.Modules.Sender
 
         }
 
-        private async void CreateMembers(IList<CreateMemberModel> members, string mailListId)
+        private async void CreateMembers(IList<CreateMemberModel> members, string mailListId, string campaignId)
         {
             await Task.Run(async () =>
             {
                 await _memberModule.CreateAndEditMembers(members, mailListId);
+                await _campaignModule.Send(campaignId);
             });
         }
 
@@ -140,7 +142,7 @@ namespace .EnvialoSimple.Business.Modules.Sender
         {
             var response = new List<string>();
 
-            if (errors != null )
+            if (errors != null)
             {
                 foreach (var error in errors)
                 {

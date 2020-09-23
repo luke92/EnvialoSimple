@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Modules.Sender;
-using .EnvialoSimple.Business.Modules.Sender.Models;
-using Models;
+using EnvialoSimple.Business.Modules.Sender;
+using EnvialoSimple.Business.Modules.Sender.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace .EnvialoSimple.Services.Controllers
+namespace EnvialoSimple.Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +22,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEdit([FromBody] SenderRequestModel model)
+        public async Task<ActionResult<SenderResponseModel>> CreateEdit([FromBody] SenderRequestModel model)
         {
             var response = await _senderModule.EnviarMail(model);
 

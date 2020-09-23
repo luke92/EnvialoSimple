@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.AdminMail.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.AdminMail.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.AdminMail
+namespace EnvialoSimple.Business.Modules.AdminMail
 {
     public interface IAdminMailModule
     {

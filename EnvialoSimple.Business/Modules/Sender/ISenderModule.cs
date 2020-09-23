@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Modules.Sender.Models;
-using Models;
+using EnvialoSimple.Business.Modules.Sender.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.Sender
+namespace EnvialoSimple.Business.Modules.Sender
 {
     public interface ISenderModule
     {

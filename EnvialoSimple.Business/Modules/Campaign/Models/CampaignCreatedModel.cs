@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using .EnvialoSimple.Business.Modules.MailList.Models;
+using EnvialoSimple.Business.Modules.MailList.Models;
 using Newtonsoft.Json;
 
-namespace .EnvialoSimple.Business.Modules.Campaign.Models
+namespace EnvialoSimple.Business.Modules.Campaign.Models
 {
     public class CampaignCreatedModel
     {

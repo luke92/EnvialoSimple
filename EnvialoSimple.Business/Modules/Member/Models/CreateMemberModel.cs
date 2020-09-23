@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace .EnvialoSimple.Business.Modules.Member.Models
+namespace EnvialoSimple.Business.Modules.Member.Models
 {
     public class CreateMemberModel
     {
@@ -11,5 +11,12 @@ namespace .EnvialoSimple.Business.Modules.Member.Models
         public string Email { get; set; }
         public string CustomField1 { get; set; }
         public string CustomField2 { get; set; }
+
+        public List<string> CustomFields { get; set; }
+
+        public CreateMemberModel()
+        {
+            CustomFields = new List<string>();
+        }
     }
 }

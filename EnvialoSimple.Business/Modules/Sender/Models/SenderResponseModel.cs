@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using .EnvialoSimple.Business.Modules.AdminMail.Models;
-using .EnvialoSimple.Business.Modules.MailList.Models;
-using .EnvialoSimple.Business.Modules.Member.Models;
+using EnvialoSimple.Business.Modules.AdminMail.Models;
+using EnvialoSimple.Business.Modules.MailList.Models;
+using EnvialoSimple.Business.Modules.Member.Models;
 
-namespace .EnvialoSimple.Business.Modules.Sender.Models
+namespace EnvialoSimple.Business.Modules.Sender.Models
 {
     public class SenderResponseModel
     {

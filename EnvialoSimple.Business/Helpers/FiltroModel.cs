@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace .EnvialoSimple.Business.Helpers
+namespace EnvialoSimple.Business.Helpers
 {
     public class FiltroModel
     {
@@ -22,7 +22,7 @@ namespace .EnvialoSimple.Business.Helpers
         public OrderByValue? OrderBy { get; set; }
         public bool? Desc { get; set; }
 
-        public FiltroModel(List<int> mailListsIds ,int? count, int? absolutePage, StatusValue? status, string filter, OrderByValue? orderBy, bool? desc)
+        public FiltroModel(List<int> mailListsIds, int? count, int? absolutePage, StatusValue? status, string filter, OrderByValue? orderBy, bool? desc)
         {
             MailListsIds = mailListsIds;
             if (count.HasValue)
@@ -100,5 +100,5 @@ namespace .EnvialoSimple.Business.Helpers
         Completed
     }
 
-    
+
 }

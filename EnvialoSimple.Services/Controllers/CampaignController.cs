@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.Campaign;
-using .EnvialoSimple.Business.Modules.Campaign.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.Campaign;
+using EnvialoSimple.Business.Modules.Campaign.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace .EnvialoSimple.Services.Controllers
+namespace EnvialoSimple.Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("list")]
-        public async Task<IActionResult> GetList([FromBody] FiltroModel filtroModel)
+        public async Task<ActionResult<IList<CampaignModel>>> GetList([FromBody] FiltroModel filtroModel)
         {
             var operationResult = await _campaignModule.GetList(filtroModel);
 
@@ -34,7 +34,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> CreateAndEdit([FromBody] CreateCampaignModel model)
+        public async Task<ActionResult<CampaignCreatedModel>> CreateAndEdit([FromBody] CreateCampaignModel model)
         {
             var operationResult = await _campaignModule.CreateAndEdit(model);
 
@@ -45,7 +45,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("send/{campaingId}")]
-        public async Task<IActionResult> Send(string campaingId)
+        public async Task<ActionResult<bool>> Send(string campaingId)
         {
             var operationResult = await _campaignModule.Send(campaingId);
 
@@ -56,7 +56,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("pause/{campaingId}")]
-        public async Task<IActionResult> Pause(string campaingId)
+        public async Task<ActionResult<bool>> Pause(string campaingId)
         {
             var operationResult = await _campaignModule.Pause(campaingId);
 

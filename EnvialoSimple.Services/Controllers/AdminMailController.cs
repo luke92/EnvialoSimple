@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.AdminMail;
-using .EnvialoSimple.Business.Modules.AdminMail.Models;
-using Models;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.AdminMail;
+using EnvialoSimple.Business.Modules.AdminMail.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace .EnvialoSimple.Services.Controllers
+namespace EnvialoSimple.Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,7 +20,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("list")]
-        public async Task<IActionResult> GetList([FromBody] FiltroModel filtroModel)
+        public async Task<ActionResult<IList<AdminMailModel>>> GetList([FromBody] FiltroModel filtroModel)
         {
             var operationResult = await _module.GetList(filtroModel);
 
@@ -30,7 +31,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> CreateAndEdit([FromBody] AdminMailModel model)
+        public async Task<ActionResult<AdminMailModel>> CreateAndEdit([FromBody] AdminMailModel model)
         {
             var operationResult = await _module.CreateAndEdit(model);
 
@@ -41,7 +42,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("get")]
-        public async Task<IActionResult> Get([FromBody] AdminMailModel model)
+        public async Task<ActionResult<AdminMailModel>> Get([FromBody] AdminMailModel model)
         {
             var operationResult = await _module.GetItem(model);
 

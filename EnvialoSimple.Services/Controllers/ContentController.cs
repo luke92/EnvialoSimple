@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Modules.Content;
-using .EnvialoSimple.Business.Modules.Content.Models;
-using Models;
+using EnvialoSimple.Business.Modules.Content;
+using EnvialoSimple.Business.Modules.Content.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace .EnvialoSimple.Services.Controllers
+namespace EnvialoSimple.Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,7 +22,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("edit")]
-        public async Task<IActionResult> CreateAndEdit([FromBody] ContentModel model)
+        public async Task<ActionResult<bool>> CreateAndEdit([FromBody] ContentModel model)
         {
             var operationResult = await _contentModule.SaveContentInCampaign(model);
 

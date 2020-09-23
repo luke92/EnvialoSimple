@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace .EnvialoSimple.Business.Modules.Campaign.Models
+namespace EnvialoSimple.Business.Modules.Campaign.Models
 {
     public class CampaignModel
     {

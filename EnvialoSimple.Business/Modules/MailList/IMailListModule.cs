@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.MailList.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.MailList.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.MailList
+namespace EnvialoSimple.Business.Modules.MailList
 {
     public interface IMailListModule
     {

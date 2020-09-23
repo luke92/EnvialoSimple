@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.MailList.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.MailList.Models;
+using Core.Models;
 using Newtonsoft.Json.Linq;
 
-namespace .EnvialoSimple.Business.Modules.MailList
+namespace EnvialoSimple.Business.Modules.MailList
 {
     public class MailListModule : IMailListModule
     {
@@ -39,16 +39,32 @@ namespace .EnvialoSimple.Business.Modules.MailList
 
                     JObject rss = JObject.Parse(json);
 
-                    JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
-
-
-                    IList<MailListModel> models = new List<MailListModel>();
-                    foreach (var item in items.Children())
+                    try
                     {
-                        models.Add(item.ToObject<MailListModel>());
+                        JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
+
+                        IList<MailListModel> models = new List<MailListModel>();
+                        if (items != null)
+                        {
+                            foreach (var item in items.Children())
+                            {
+                                models.Add(item.ToObject<MailListModel>());
+                            }
+                            return new SuccessResultModel<IList<MailListModel>>(models);
+                        }
+                        else
+                        {
+                            return new ErrorResultModel<IList<MailListModel>>(
+                                "No se encontraron Listas de mails que coincidan con la búsqueda realizada");
+                        }
+
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<IList<MailListModel>>(item.ToString());
                     }
 
-                    return new SuccessResultModel<IList<MailListModel>>(models);
                 }
             }
             catch (Exception e)
@@ -89,13 +105,21 @@ namespace .EnvialoSimple.Business.Modules.MailList
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["maillist"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["maillist"];
 
 
-                    CreateMailListModel mailList = new CreateMailListModel();
-                    mailList = item.ToObject<CreateMailListModel>();
+                        CreateMailListModel mailList = new CreateMailListModel();
+                        mailList = item.ToObject<CreateMailListModel>();
 
-                    return new SuccessResultModel<CreateMailListModel>(mailList);
+                        return new SuccessResultModel<CreateMailListModel>(mailList);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<CreateMailListModel>(item.ToString());
+                    }
                 }
             }
             catch (Exception e)

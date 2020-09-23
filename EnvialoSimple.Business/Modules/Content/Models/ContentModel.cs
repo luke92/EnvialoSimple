@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace .EnvialoSimple.Business.Modules.Content.Models
+namespace EnvialoSimple.Business.Modules.Content.Models
 {
     public class ContentModel
     {

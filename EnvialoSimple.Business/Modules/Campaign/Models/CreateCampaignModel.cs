@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace .EnvialoSimple.Business.Modules.Campaign.Models
+namespace EnvialoSimple.Business.Modules.Campaign.Models
 {
     public class CreateCampaignModel
     {
@@ -19,6 +19,7 @@ namespace .EnvialoSimple.Business.Modules.Campaign.Models
         public bool ScheduleCampaign { get; set; }
         public DateTime? SendDate { get; set; }
         public bool AddToPublicArchive { get; set; }
+        public bool DontSendNow { get; set; }
         public CreateCampaignModel()
         {
             TrackLinkClicks = false;
@@ -28,6 +29,7 @@ namespace .EnvialoSimple.Business.Modules.Campaign.Models
             ScheduleCampaign = false;
             AddToPublicArchive = false;
             MailListsIds = new List<int>();
+            DontSendNow = false;
         }
     }
 }

@@ -5,13 +5,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.Campaign.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.Campaign.Models;
+using Core.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace .EnvialoSimple.Business.Modules.Campaign
+namespace EnvialoSimple.Business.Modules.Campaign
 {
     public class CampaignModule : ICampaignModule
     {
@@ -32,8 +32,8 @@ namespace .EnvialoSimple.Business.Modules.Campaign
                 {
                     var url = String.Format("{0}/{1}/{2}?{3}&{4}", _baseUri.GetURI(), _modulo, action,
                         _baseUri.GetAPIKEY(), _baseUri.GetFormat());
-                    if(filtroModel != null)
-                        url += String.Format("&{0}",filtroModel.GetSearchQuery("MailListsIds"));
+                    if (filtroModel != null)
+                        url += String.Format("&{0}", filtroModel.GetSearchQuery("MailListsIds"));
                     HttpResponseMessage response =
                         await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
@@ -42,19 +42,28 @@ namespace .EnvialoSimple.Business.Modules.Campaign
 
                     JObject rss = JObject.Parse(json);
 
-                    JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
-
-                    
-                    IList<CampaignModel> campaingsModels = new List<CampaignModel>();
-                    foreach (var item in items.Children())
+                    try
                     {
-                        campaingsModels.Add(item.ToObject<CampaignModel>());
+                        JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
+
+
+                        IList<CampaignModel> campaingsModels = new List<CampaignModel>();
+                        foreach (var item in items.Children())
+                        {
+                            campaingsModels.Add(item.ToObject<CampaignModel>());
+                        }
+
+                        return new SuccessResultModel<IList<CampaignModel>>(campaingsModels);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<IList<CampaignModel>>(item.ToString());
                     }
 
-                    return new SuccessResultModel<IList<CampaignModel>>(campaingsModels);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new ErrorResultModel<IList<CampaignModel>>(e.Message);
             }
@@ -98,7 +107,7 @@ namespace .EnvialoSimple.Business.Modules.Campaign
                     {
                         parameters.Add(new KeyValuePair<string, string>("ReplyToID", campaignModel.ReplyToId.Value.ToString()));
                     }
-                    
+
                     parameters.Add(new KeyValuePair<string, string>("TrackLinkClicks", Convert.ToInt32(campaignModel.TrackLinkClicks).ToString()));
 
                     parameters.Add(new KeyValuePair<string, string>("TrackReads", Convert.ToInt32(campaignModel.TrackReads).ToString()));
@@ -113,7 +122,12 @@ namespace .EnvialoSimple.Business.Modules.Campaign
                     {
                         parameters.Add(new KeyValuePair<string, string>("SendDate", campaignModel.SendDate.Value.ToString("yyyy-MM-dd HH:mm:ss")));
                     }
-                    
+
+                    if (!campaignModel.DontSendNow)
+                    {
+                        parameters.Add(new KeyValuePair<string, string>("SendNow", "1"));
+                    }
+
                     var formContent = new FormUrlEncodedContent(parameters);
 
                     var url = String.Format("{0}/{1}/{2}?{3}&{4}", _baseUri.GetURI(), _modulo, action,
@@ -127,13 +141,22 @@ namespace .EnvialoSimple.Business.Modules.Campaign
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["campaign"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["campaign"];
 
 
-                    CampaignCreatedModel campaingCreatedModel = new CampaignCreatedModel();
-                    campaingCreatedModel = item.ToObject<CampaignCreatedModel>();
+                        CampaignCreatedModel campaingCreatedModel = new CampaignCreatedModel();
+                        campaingCreatedModel = item.ToObject<CampaignCreatedModel>();
 
-                    return new SuccessResultModel<CampaignCreatedModel>(campaingCreatedModel);
+                        return new SuccessResultModel<CampaignCreatedModel>(campaingCreatedModel);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<CampaignCreatedModel>(item.ToString());
+                    }
+
                 }
             }
             catch (Exception e)
@@ -166,12 +189,21 @@ namespace .EnvialoSimple.Business.Modules.Campaign
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["success"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["success"];
 
-                    var responseObject = item.ToObject<int>();
+                        var responseObject = item.ToObject<int>();
 
-                    var contentCreated = responseObject > 0;
-                    return new SuccessResultModel<bool>(contentCreated);
+                        var contentCreated = responseObject > 0;
+                        return new SuccessResultModel<bool>(contentCreated);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<bool>(item.ToString());
+                    }
+
                 }
             }
             catch (Exception e)
@@ -188,9 +220,9 @@ namespace .EnvialoSimple.Business.Modules.Campaign
                 using (HttpClient client = new HttpClient())
                 {
                     var parameters = new List<KeyValuePair<string, string>>();
-                    
+
                     parameters.Add(new KeyValuePair<string, string>("CampaignID", campaignId));
-                    
+
                     var content = new FormUrlEncodedContent(parameters);
 
                     var url = String.Format("{0}/{1}/{2}?{3}&{4}", _baseUri.GetURI(), _modulo, action,
@@ -204,12 +236,20 @@ namespace .EnvialoSimple.Business.Modules.Campaign
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["success"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["success"];
 
-                    var responseObject = item.ToObject<int>();
+                        var responseObject = item.ToObject<int>();
 
-                    var contentCreated = responseObject > 0;
-                    return new SuccessResultModel<bool>(contentCreated);
+                        var contentCreated = responseObject > 0;
+                        return new SuccessResultModel<bool>(contentCreated);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<bool>(item.ToString());
+                    }
                 }
             }
             catch (Exception e)

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.Member.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.Member.Models;
+using Core.Models;
 using Newtonsoft.Json.Linq;
 
-namespace .EnvialoSimple.Business.Modules.Member
+namespace EnvialoSimple.Business.Modules.Member
 {
     public class MemberModule : IMemberModule
     {
@@ -39,17 +39,26 @@ namespace .EnvialoSimple.Business.Modules.Member
 
                     JObject rss = JObject.Parse(json);
 
-                    JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
-
-
-                    IList<MemberModel> models = new List<MemberModel>();
-                    foreach (var item in items.Children())
+                    try
                     {
-                        var model = item.ToObject<MemberModel>();
-                        models.Add(model);
+                        JArray items = (JArray)rss["root"]["ajaxResponse"]["list"]["item"];
+
+
+                        IList<MemberModel> models = new List<MemberModel>();
+                        foreach (var item in items.Children())
+                        {
+                            var model = item.ToObject<MemberModel>();
+                            models.Add(model);
+                        }
+
+                        return new SuccessResultModel<IList<MemberModel>>(models);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<IList<MemberModel>>(item.ToString());
                     }
 
-                    return new SuccessResultModel<IList<MemberModel>>(models);
                 }
             }
             catch (Exception e)
@@ -69,10 +78,10 @@ namespace .EnvialoSimple.Business.Modules.Member
 
                     if (!string.IsNullOrEmpty(model.MemberID))
                     {
-                        parameters.Add(new KeyValuePair<string, string>("MemberID",model.MemberID));
+                        parameters.Add(new KeyValuePair<string, string>("MemberID", model.MemberID));
                     }
 
-                    if (!string.IsNullOrEmpty(mailListId.Trim()))
+                    if (mailListId != null && !string.IsNullOrEmpty(mailListId.Trim()))
                     {
                         parameters.Add(new KeyValuePair<string, string>("MailListID", mailListId));
                     }
@@ -84,30 +93,51 @@ namespace .EnvialoSimple.Business.Modules.Member
                         }
                     }
 
-                    parameters.Add(new KeyValuePair<string, string>("Email",model.Email));
-                    parameters.Add(new KeyValuePair<string, string>("CustomField1",model.CustomField1));
-                    parameters.Add(new KeyValuePair<string, string>("CustomField2",model.CustomField2));
+                    parameters.Add(new KeyValuePair<string, string>("Email", model.Email));
+
+                    if (model.CustomFields != null && model.CustomFields.Count < 3)
+                    {
+                        parameters.Add(new KeyValuePair<string, string>("CustomField1", model.CustomField1));
+                        parameters.Add(new KeyValuePair<string, string>("CustomField2", model.CustomField2));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < model.CustomFields.Count; i++)
+                        {
+                            parameters.Add(new KeyValuePair<string, string>("CustomField" + (i + 1), model.CustomFields[i]));
+                        }
+                    }
+
 
                     var formContent = new FormUrlEncodedContent(parameters);
 
                     var url = String.Format("{0}/{1}/{2}?{3}&{4}", _baseUri.GetURI(), _modulo, action,
                         _baseUri.GetAPIKEY(), _baseUri.GetFormat());
-                    
+
                     HttpResponseMessage response =
-                        await client.PostAsync(url,formContent);
+                        await client.PostAsync(url, formContent);
                     response.EnsureSuccessStatusCode();
 
                     string json = await response.Content.ReadAsStringAsync();
 
                     JObject rss = JObject.Parse(json);
 
-                    JToken item = rss["root"]["ajaxResponse"]["member"];
+                    try
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["member"];
 
 
-                    MemberModel member = new MemberModel();
-                    member = item.ToObject<MemberModel>();
+                        MemberModel member = new MemberModel();
+                        member = item.ToObject<MemberModel>();
 
-                    return new SuccessResultModel<MemberModel>(member);
+                        return new SuccessResultModel<MemberModel>(member);
+                    }
+                    catch
+                    {
+                        JToken item = rss["root"]["ajaxResponse"]["errors"];
+                        return new ErrorResultModel<MemberModel>(item.ToString());
+                    }
+
                 }
             }
             catch (Exception e)
@@ -123,7 +153,8 @@ namespace .EnvialoSimple.Business.Modules.Member
 
                 foreach (var memberModel in membersModels)
                 {
-                    await Task.Run(async () => {
+                    await Task.Run(async () =>
+                    {
                         await CreateAndEdit(memberModel, mailListId);
                     });
                 }
@@ -135,7 +166,7 @@ namespace .EnvialoSimple.Business.Modules.Member
             {
                 return new ErrorResultModel<bool>(e.Message);
             }
-            
+
         }
     }
 }

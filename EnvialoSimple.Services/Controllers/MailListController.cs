@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.MailList;
-using .EnvialoSimple.Business.Modules.MailList.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.MailList;
+using EnvialoSimple.Business.Modules.MailList.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace .EnvialoSimple.Services.Controllers
+namespace EnvialoSimple.Services.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,7 +23,7 @@ namespace .EnvialoSimple.Services.Controllers
         }
 
         [HttpPost("list")]
-        public async Task<IActionResult> GetList([FromBody] FiltroModel filtroModel)
+        public async Task<ActionResult<IList<MailListModel>>> GetList([FromBody] FiltroModel filtroModel)
         {
             var operationResult = await _mailListModule.GetList(filtroModel);
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using .EnvialoSimple.Business.Modules.Campaign.Models;
-using .EnvialoSimple.Business.Modules.Content.Models;
+using EnvialoSimple.Business.Modules.Campaign.Models;
+using EnvialoSimple.Business.Modules.Content.Models;
 
-namespace .EnvialoSimple.Business.Modules.Sender.Models
+namespace EnvialoSimple.Business.Modules.Sender.Models
 {
     public class CampaignWithContentResponseModel
     {

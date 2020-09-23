@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.Campaign.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.Campaign.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.Campaign
+namespace EnvialoSimple.Business.Modules.Campaign
 {
     public interface ICampaignModule
     {

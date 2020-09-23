@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using .EnvialoSimple.Business.Helpers;
-using .EnvialoSimple.Business.Modules.Member.Models;
-using Models;
+using EnvialoSimple.Business.Helpers;
+using EnvialoSimple.Business.Modules.Member.Models;
+using Core.Models;
 
-namespace .EnvialoSimple.Business.Modules.Member
+namespace EnvialoSimple.Business.Modules.Member
 {
     public interface IMemberModule
     {
