@@ -42,7 +42,7 @@ namespace EnvialoSimple.Services
             // register the Swagger generator, defining one or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "HUA " + Configuration["AppName"] + "  API", Version = Configuration["Version"] });
+                c.SwaggerDoc("v1", new Info { Title = Configuration["AppName"] + "  API", Version = Configuration["Version"] });
                 c.DescribeAllEnumsAsStrings();
             });
 
@@ -89,7 +89,7 @@ namespace EnvialoSimple.Services
             // Enable middleware to serve swagger-ui specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("../swagger/v1/swagger.json", "HUA " + Configuration["AppName"] + " API");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", Configuration["AppName"] + " API");
             });
 
             app.UseMvc();
