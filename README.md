@@ -12,3 +12,5 @@ https://envialosimple.com/
 - Luego cambiar v4 por v3 https://v3.envialosimple.com/#!/es/dashboard
 - Ir a cuenta - Configuracion - Clave API - Nueva Clave API
 - https://v3.envialosimple.com/config/#/api-key/
+- Guardamos la clave API y luego click en Editar en la clave guardada
+- Copiamos la APIKEY y la usamos en appsettings.json
