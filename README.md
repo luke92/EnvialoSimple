@@ -8,9 +8,9 @@ https://envialosimple.com/es-ar/api
 https://envialosimple.com/
 
 # Uso de datos parametrizables en una campaña
-- En un HTML se deben poner los datos de la siguiente manera %Member:CustomField1% %Member:CustomField2% segun el orden que se agreguen los valores en "CustomFields": [] de cada Miembro (Member) de "Members": [] en "MailListWithMembers": { }
+- En un HTML se deben poner los datos de la siguiente manera `%Member:CustomField1%` `%Member:CustomField2%` segun el orden que se agreguen los valores en `"CustomFields": []` de cada Miembro (Member) de `"Members": []` en `"MailListWithMembers": { }`
 - Tener en cuenta que en el html siempre debe estar el link de Desubscripción (Aunque este oculto)
-  - ‹span›Para desuscribirse de nuestra lista haga‹/span› ‹a href="%UnSubscribe%" target="_blank"›Click Aquí‹/a›
+  - `‹span›Para desuscribirse de nuestra lista haga‹/span› ‹a href="%UnSubscribe%" target="_blank"›Click Aquí‹/a›`
 
 # Configurar appsettings.json
 
@@ -23,5 +23,5 @@ https://envialosimple.com/
 - Copiamos la APIKEY y la usamos en appsettings.json
 
 ## Configurar Email de administrador
-- Para pruebas configurar "FromEmailDefault" con el correo que se creó la cuenta
+- Para pruebas configurar `"FromEmailDefault"` con el correo que se creó la cuenta
 - Para ambiente productivo se debe verificar las casillas que se coloquen ahi mismo en "Dominios Verificados" de Envialo Simple https://v3.envialosimple.com/config/#/domain-verification/
