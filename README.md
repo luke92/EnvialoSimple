@@ -7,3 +7,5 @@ https://envialosimple.com/es-ar/api
 # Crear cuenta gratis (Podes usar hasta 3 campos parametrizables)
 https://envialosimple.com/
 
+# Configurar API KEY
+https://v3.envialosimple.com/config/#/api-key/
