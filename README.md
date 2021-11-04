@@ -28,8 +28,8 @@ API hecha en .NET CORE para comunicarnos con la API de EnvialoSimple
 # TEST API
 
 ## Uso de datos parametrizables en una campaña
-- En un HTML se deben poner los datos de la siguiente manera `%Member:CustomField1%` `%Member:CustomField2%` segun el orden que se agreguen los valores en `"CustomFields": []` de cada Miembro (Member) de `"Members": []` en `"MailListWithMembers": { }`
-- Tener en cuenta que en el html siempre debe estar el link de Desubscripción (Aunque este oculto)
+- En el `SenderRequestModel.Content.HTML` se deben poner los datos de la siguiente manera `%Member:CustomField1%` `%Member:CustomField2%` segun el orden que se agreguen los valores en `"CustomFields": []` de cada Miembro (Member) de `"Members": []` en `"MailListWithMembers": { }`
+- Tener en cuenta que en el `SenderRequestModel.Content.HTML` siempre debe estar dentro el link de Desubscripción (Aunque este oculto)
   - `‹span›Para desuscribirse de nuestra lista haga‹/span› ‹a href="%UnSubscribe%" target="_blank"›Click Aquí‹/a›`
 
 ## Programar envio o mandar en el momento
