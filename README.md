@@ -14,3 +14,6 @@ https://envialosimple.com/
 - https://v3.envialosimple.com/config/#/api-key/
 - Guardamos la clave API y luego click en Editar en la clave guardada
 - Copiamos la APIKEY y la usamos en appsettings.json
+
+# Uso de datos parametrizables en una campaña
+- En un HTML se deben poner los datos de la siguiente manera %Member:CustomField1% %Member:CustomField2% segun el orden que se agreguen los valores en "CustomFields": [] de cada Miembro (Member) de "Members": [] en "MailListWithMembers": { }
