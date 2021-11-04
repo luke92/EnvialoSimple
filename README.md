@@ -8,4 +8,7 @@ https://envialosimple.com/es-ar/api
 https://envialosimple.com/
 
 # Configurar API KEY
-https://v3.envialosimple.com/config/#/api-key/
+- Entrar al dahsboard de la V4 https://v4.envialosimple.com/#!/es/dashboard
+- Luego cambiar v4 por v3 https://v3.envialosimple.com/#!/es/dashboard
+- Ir a cuenta - Configuracion - Clave API - Nueva Clave API
+- https://v3.envialosimple.com/config/#/api-key/
