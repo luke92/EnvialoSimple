@@ -7,6 +7,9 @@ https://envialosimple.com/es-ar/api
 # Crear cuenta gratis (Podes usar hasta 3 campos parametrizables)
 https://envialosimple.com/
 
+# Documentación de EnvialoSimple API
+- {baseUrl}/swagger
+
 # Configurar appsettings.json
 
 ## Configurar API KEY
