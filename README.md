@@ -32,6 +32,6 @@ https://envialosimple.com/
   - `‹span›Para desuscribirse de nuestra lista haga‹/span› ‹a href="%UnSubscribe%" target="_blank"›Click Aquí‹/a›`
 
 ## Programar envio o mandar en el momento
-- Si estas en UTC -3 (Argentina Time) si o si es necesario enviar en `CreateCampaignModel.SendDate` una fecha y hora que sea 3 horas mas de la actual
-- `CreateCampaignModel.ScheduleCampaign` enviarlo en True
-- Si lo vas a enviar en el momento colocar en `CreateCampaignModel.DontSendNow` como `False`, sino en `True` (para que se envie a la hora programada)
+- Si estas en UTC -3 (Argentina Time) si o si es necesario enviar en `SenderRequestModel.Campaign.SendDate` una fecha y hora que sea 3 horas mas de la actual
+- `SenderRequestModel.Campaign.ScheduleCampaign` enviarlo en True
+- Si lo vas a enviar en el momento colocar en `SenderRequestModel.Campaign..DontSendNow` como `False`, sino en `True` (para que se envie a la hora programada)
