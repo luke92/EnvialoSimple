@@ -36,3 +36,7 @@ API hecha en .NET CORE para comunicarnos con la API de EnvialoSimple
 - Si estas en UTC -3 (Argentina Time) si o si es necesario enviar en `SenderRequestModel.Campaign.SendDate` una fecha y hora que sea 3 horas mas de la actual
 - `SenderRequestModel.Campaign.ScheduleCampaign` enviarlo en True
 - Si lo vas a enviar en el momento colocar en `SenderRequestModel.Campaign..DontSendNow` como `False`, sino en `True` (para que se envie a la hora programada)
+
+## Request de ejemplo
+- Podes usar el siguiente request de ejemplo cambiando los correos y campos parametrizables de los Members
+- https://github.com/luke92/EnvialoSimple/blob/master/EnvialoSimpleAPIRequest.json
