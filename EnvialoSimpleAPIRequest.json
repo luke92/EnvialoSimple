@@ -1,0 +1,63 @@
+{
+  "From": {
+    "EmailID": null,
+    "EmailAddress": "your@email.com",
+    "Name": null
+  },
+  "ReplyTo": {
+    "EmailID": null,
+    "EmailAddress": "your@email.com",
+    "Name": null
+  },
+  "MailListWithMembers": {
+    "MailList": { "MailListID": null, "MailListName": null },
+    "Members": [
+      {
+        "MemberID": null,
+        "MailListID": null,
+        "Email": "customer@gmail.com",
+        "CustomField1": null,
+        "CustomField2": null,
+        "CustomFields": [
+          "FirstName LastName",
+          "customer@gmail.com",
+        ]
+      },
+      {
+        "MemberID": null,
+        "MailListID": null,
+        "Email": "customer2@gmail.com",
+        "CustomField1": null,
+        "CustomField2": null,
+        "CustomFields": [
+          "FirstName2 LastName2",
+          "customer2@gmail.com",
+        ]
+      },
+    ]
+  },
+  "Campaign": {
+    "Campaign": {
+      "CampaignID": null,
+      "CampaignName": "New Event",
+      "CampaignSubject": "Event for %Member:CustomField1% with email %Member:CustomField2%",
+      "MailListsIds": [],
+      "FromId": null,
+      "ReplyToId": null,
+      "TrackLinkClicks": true,
+      "TrackReads": true,
+      "TrackAnalitics": true,
+      "SendStateReport": true,
+      "ScheduleCampaign": true,
+      "SendDate": "2021-12-04T16:50:00.0000000-03:00",
+      "AddToPublicArchive": false
+    },
+    "Content": {
+      "CampaignID": 0,
+      "URL": null,
+      "HTML": "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Appointment from %Member:CustomField1% with %Member:CustomField2%</title></head><body style=\"margin:0; padding:0;\">This is for %Member:CustomField1% with email %Member:CustomField2%<a href=\"%UnSubscribe%\" style=\"text-decoration: none; color: #333333!important\" target=\"_blank\">Para desuscribirte haz click aquí.</a></body></html>",
+      "PlainText": null,
+      "RemoteUnsubscribeBlock": null
+    }
+  }
+}
